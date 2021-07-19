@@ -1,2 +1,4 @@
 node_modules
 itop-mx-okeymaludin-rhel.pem
+.env
+.prod.env
