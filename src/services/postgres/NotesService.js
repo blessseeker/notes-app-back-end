@@ -41,7 +41,7 @@ class NotesService {
 
   async getNoteById(id) {
     const query = {
-      text: 'SELECT * FROM tbl_notes WHERE id = $1',
+      text: 'SELECT tbl_notes.*, tbl_users.username FROM tbl_notes LEFT JOIN tbl_users ON tbl_users.id = tbl_notes.owner WHERE tbl_notes.id = $1',
       values: [id],
     };
     const result = await this._pool.query(query);
