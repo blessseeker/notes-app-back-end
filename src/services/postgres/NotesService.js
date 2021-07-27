@@ -32,7 +32,7 @@ class NotesService {
 
   async getNotes(owner) {
     const query = {
-      text: 'SELECT * FROM tbl_notes WHERE owner = $1',
+      text: 'SELECT tbl_notes.* FROM tbl_notes LEFT JOIN tbl_collaborations ON tbl_collaborations.note_id = tbl_notes.id WHERE tbl_notes.owner = $1 OR tbl_collaborations.user_id = $1 GROUP BY tbl_notes.id',
       values: [owner],
     };
     const result = await this._pool.query(query);
@@ -102,6 +102,7 @@ class NotesService {
       if (error instanceof NotFoundError) {
         throw error;
       }
+
       try {
         await this._collaborationService.verifyCollaborator(noteId, userId);
       } catch {
